@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday TEST! 🎂</title>
+  <meta property="og:title" content="Happy Birthday TEST! 🎂">
+  <meta property="og:description" content="A special birthday card just for you!">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-100vh) rotate(5deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    @keyframes bounce { 0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); } 50% { transform: none; animation-timing-function: cubic-bezier(0,0,0.2,1); } }
+    .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    .animate-bounce { animation: bounce 1s infinite; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 p-4 overflow-x-hidden">
+  <div id="confetti" class="fixed inset-0 pointer-events-none overflow-hidden" style="z-index:100"></div>
+  
+  <div class="fixed inset-0 pointer-events-none overflow-hidden" style="z-index:1">
+    <div class="absolute text-6xl" style="left:10%;bottom:-100px;animation:float 8.091191778029115s ease-in-out 0s infinite">🎈</div><div class="absolute text-6xl" style="left:22%;bottom:-100px;animation:float 10.80999490184486s ease-in-out 0.5s infinite">🎈</div><div class="absolute text-6xl" style="left:34%;bottom:-100px;animation:float 10.76791287799841s ease-in-out 1s infinite">🎈</div><div class="absolute text-6xl" style="left:46%;bottom:-100px;animation:float 10.662183121914405s ease-in-out 1.5s infinite">🎈</div><div class="absolute text-6xl" style="left:58%;bottom:-100px;animation:float 9.221660296286544s ease-in-out 2s infinite">🎈</div><div class="absolute text-6xl" style="left:70%;bottom:-100px;animation:float 9.477201809674192s ease-in-out 2.5s infinite">🎈</div><div class="absolute text-6xl" style="left:82%;bottom:-100px;animation:float 9.67599796485102s ease-in-out 3s infinite">🎈</div><div class="absolute text-6xl" style="left:94%;bottom:-100px;animation:float 8.553879303356931s ease-in-out 3.5s infinite">🎈</div>
+  </div>
+
+  <div class="max-w-2xl mx-auto relative pb-8" style="z-index:10">
+    <div class="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-2xl">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-2">🎂 Happy Birthday! 🎂</h1>
+        <p class="text-xl text-gray-600 mb-6">TEST</p>
+        <div id="ageCounter" class="text-8xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent animate-pulse">0</div>
+        <p class="text-lg text-gray-500 mt-2">years of awesome!</p>
+        <p class="text-purple-500 mt-1">♒ Aquarius</p>
+      </div>
+
+      
+
+      
+      <div class="flex justify-center gap-4 my-6">
+        <span class="text-5xl animate-bounce" style="animation-delay:0s">🎨</span>
+      </div>
+
+      <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl p-6 my-6">
+        <h3 class="font-bold text-purple-600 mb-2">✨ What makes them special:</h3>
+        <p class="text-gray-700">draw</p>
+      </div>
+
+      
+    </div>
+
+    <div class="mt-12 bg-white/90 backdrop-blur rounded-3xl p-6 shadow-xl">
+      <h3 class="text-2xl font-bold text-purple-600 mb-4">💌 Birthday Wishes</h3>
+      <div class="mb-6 space-y-3">
+        <input type="text" id="guestName" placeholder="Your name" class="w-full px-4 py-2 rounded-xl border-2 border-purple-200 focus:border-purple-500 outline-none">
+        <textarea id="guestMsg" placeholder="Write your birthday wish..." class="w-full px-4 py-2 rounded-xl border-2 border-purple-200 focus:border-purple-500 outline-none resize-none h-24"></textarea>
+        <button onclick="addWish()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold hover:shadow-lg transition-all">🎁 Send Wish</button>
+      </div>
+      <div id="wishes" class="space-y-4"></div>
+    </div>
+    
+    <p class="text-center text-white/60 text-sm mt-8">Made with ❤️ using Birthday Card Creator</p>
+  </div>
+
+  <script>
+    const age = 0;
+    let count = 0;
+    const counter = document.getElementById('ageCounter');
+    const ageInterval = setInterval(() => { count++; counter.textContent = count; if (count >= age) clearInterval(ageInterval); }, 50);
+
+    const confettiContainer = document.getElementById('confetti');
+    const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb5', '#c59fff'];
+    for (let i = 0; i < 50; i++) {
+      const div = document.createElement('div');
+      div.style.cssText = 'position:absolute;left:'+Math.random()*100+'%;top:-20px;width:10px;height:10px;background:'+colors[i%6]+';border-radius:'+(Math.random()>0.5?'50%':'0')+';animation:fall '+(3+Math.random()*2)+'s linear '+(Math.random()*2)+'s infinite';
+      confettiContainer.appendChild(div);
+    }
+    setTimeout(() => confettiContainer.style.display = 'none', 5000);
+
+    const photos = document.querySelectorAll('.photo-item');
+    if (photos.length > 0) {
+      let active = 0;
+      const rotatePhotos = () => {
+        photos.forEach((p, i) => {
+          const diff = i - active;
+          p.style.transform = 'rotate('+diff*5+'deg) scale('+(i===active?1:0.9)+') translateX('+diff*30+'px)';
+          p.style.opacity = i === active ? 1 : 0.5;
+          p.style.zIndex = i === active ? 10 : 5;
+        });
+        active = (active + 1) % photos.length;
+      };
+      rotatePhotos();
+      if (photos.length > 1) setInterval(rotatePhotos, 3000);
+    }
+
+    const STORAGE_KEY = 'wishes_dokhfm5eo';
+    let wishes = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    
+    function renderWishes() {
+      const container = document.getElementById('wishes');
+      if (wishes.length === 0) {
+        container.innerHTML = '<p class="text-gray-400 text-center py-8">Be the first to send a birthday wish! 🎉</p>';
+      } else {
+        container.innerHTML = wishes.slice().reverse().map(w => 
+          '<div class="bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-2xl" style="animation:fadeIn 0.5s ease-out"><p class="text-gray-700">'+w.message+'</p><p class="text-sm text-purple-500 mt-2">— '+w.name+'</p></div>'
+        ).join('');
+      }
+    }
+    renderWishes();
+
+    function addWish() {
+      const name = document.getElementById('guestName').value.trim();
+      const msg = document.getElementById('guestMsg').value.trim();
+      if (!name || !msg) return alert('Please enter your name and message');
+      wishes.push({ name: name, message: msg, time: Date.now() });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wishes));
+      document.getElementById('guestName').value = '';
+      document.getElementById('guestMsg').value = '';
+      renderWishes();
+    }
+  </script>
+</body>
+</html>
